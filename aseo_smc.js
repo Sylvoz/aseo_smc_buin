@@ -2,7 +2,7 @@ import puppeteer from "puppeteer";
 
 export async function aseo_smc(rol,dv){
   const browser = await puppeteer.launch({
-    headless: 'new',
+    headless: false,
     args: [
       "--disable-setuid-sandbox",
       "--no-sandbox",
@@ -23,10 +23,11 @@ try{
 
   const url=`https://pago.smc.cl/pagoAseov2/muni/buin.aspx`
 
-  await page.goto(url,{timeout:10000});
+  await page.goto(url,{waitUntil: 'domcontentloaded',timeout:10000});
   await page.waitForSelector('#ctl00_ContentPlaceHolder1_txtRol',{timeout:10000})
   await page.type('#ctl00_ContentPlaceHolder1_txtRol',rol)
   await page.type('#ctl00_ContentPlaceHolder1_txtRol2',dv)
+  new Promise(r => setTimeout(r, 1000));
   await page.click('#ctl00_ContentPlaceHolder1_btnAceptar')
   
 
